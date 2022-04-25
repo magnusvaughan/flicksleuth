@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 
-# , CommandError
+from movies.models import Actor, Movie
 
-# from movies.models import Actor, Movie
+# , CommandError
 
 
 class Command(BaseCommand):
@@ -18,9 +18,9 @@ class Command(BaseCommand):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         title = soup.select("h3 > a")[0].text
-        print(title)
-        year = soup.select(".nobr")[0].text.replace("(", "").replace(")", "")
-        print(year)
+        # year = soup.select(".nobr")[0].text.replace("(", "").replace(")", "")
         cast = soup.select("td.primary_photo + td > a")
+        new_movie = Movie.objects.get_or_create(title=title)[0]
         for actor in cast:
-            print(actor.text)
+            new_actor = Actor.objects.get_or_create(name=actor.text)[0]
+            new_movie.actors.add(new_actor)

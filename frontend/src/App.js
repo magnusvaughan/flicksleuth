@@ -14,9 +14,10 @@ function App() {
   useEffect(() => {
     function fetchMovies() {
       axios.get("http://127.0.0.1:8000/api/movies").then(response => {
-        setMovie(response.data[0])
-        setCast(response.data[0].actors.splice(0, revealedActors))
-        setAnswer(response.data[0].title)
+        const movieIndex = Math.floor(Math.random() * response.data.length)
+        setMovie(response.data[movieIndex])
+        setCast(response.data[movieIndex].actors.splice(0, revealedActors))
+        setAnswer(response.data[movieIndex].title)
       })
     }
     fetchMovies()
