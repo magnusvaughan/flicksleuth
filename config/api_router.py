@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 from flicksleuth.users.api.views import UserViewSet
-from movies.api.views import MovieListView
+from movies.api.views import MovieListView, MovieRetrieveView
 
 if settings.DEBUG:
     router = DefaultRouter()
@@ -14,6 +14,7 @@ router.register("users", UserViewSet)
 
 app_name = "api"
 
-urlpatterns = [path("movies", MovieListView.as_view())]
+urlpatterns = [path("movie", MovieRetrieveView.as_view())]
+urlpatterns += [path("movies", MovieListView.as_view())]
 
 urlpatterns += router.urls

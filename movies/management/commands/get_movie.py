@@ -14,6 +14,7 @@ class Command(BaseCommand):
         parser.add_argument("movie_id", type=str)
 
     def handle(self, *args, **options):
+        max_actors_per_movie = 10
         url = f"https://www.imdb.com/title/tt{options['movie_id']}/fullcredits"
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
@@ -21,6 +22,9 @@ class Command(BaseCommand):
         # year = soup.select(".nobr")[0].text.replace("(", "").replace(")", "")
         cast = soup.select("td.primary_photo + td > a")
         new_movie = Movie.objects.get_or_create(title=title)[0]
+        current_cast_index = 0
         for actor in cast:
-            new_actor = Actor.objects.get_or_create(name=actor.text)[0]
-            new_movie.actors.add(new_actor)
+            if current_cast_index < max_actors_per_movie:
+                new_actor = Actor.objects.get_or_create(name=actor.text.strip("\n"))[0]
+                new_movie.actors.add(new_actor)
+                current_cast_index + 1
