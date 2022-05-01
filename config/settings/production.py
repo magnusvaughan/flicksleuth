@@ -185,3 +185,6 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+CORS_ALLOWED_ORIGINS = [
+    "https://626e434ea152cf1d75375d48--majestic-mermaid-b67170.netlify.app"
+]
