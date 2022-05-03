@@ -19,7 +19,13 @@ class Command(BaseCommand):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         title = soup.select("h3 > a")[0].text
-        year = soup.select(".nobr")[0].text.replace("(", "").replace(")", "")
+        year = (
+            soup.select(".nobr")[0]
+            .text.replace("(", "")
+            .replace(")", "")
+            .lstrip()
+            .rstrip()
+        )
         cast = soup.select("td.primary_photo + td > a")
         new_movie = Movie.objects.get_or_create(title=title, year=year)[0]
         current_cast_index = 0
