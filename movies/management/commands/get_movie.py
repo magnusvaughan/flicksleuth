@@ -19,9 +19,9 @@ class Command(BaseCommand):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         title = soup.select("h3 > a")[0].text
-        # year = soup.select(".nobr")[0].text.replace("(", "").replace(")", "")
+        year = soup.select(".nobr")[0].text.replace("(", "").replace(")", "")
         cast = soup.select("td.primary_photo + td > a")
-        new_movie = Movie.objects.get_or_create(title=title)[0]
+        new_movie = Movie.objects.get_or_create(title=title, year=year)[0]
         current_cast_index = 0
         for actor in cast:
             if current_cast_index < max_actors_per_movie:

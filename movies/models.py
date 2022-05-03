@@ -10,6 +10,7 @@ class Actor(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=200)
+    year = models.CharField(max_length=200)
     actors = models.ManyToManyField(Actor)
 
     def __str__(self):
