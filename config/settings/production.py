@@ -189,3 +189,5 @@ CORS_ALLOWED_ORIGINS = [
     "https://majestic-mermaid-b67170.netlify.app",
     "https://flicksleuth.com",
 ]
+
+MOVIE_API = {"XRapidAPIHost": env("XRapidAPIHost"), "XRapidAPIKey": env("XRapidAPIKey")}
