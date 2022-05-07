@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 
-from movies.models import Actor, Movie
+from movies.models import Actor, Movie, MovieActor
 
 # , CommandError
 
@@ -28,9 +28,13 @@ class Command(BaseCommand):
         )
         cast = soup.select("td.primary_photo + td > a")
         new_movie = Movie.objects.get_or_create(title=title, year=year)[0]
-        current_cast_index = 0
+        current_cast_index = 1
         for actor in cast:
             if current_cast_index < max_actors_per_movie:
                 new_actor = Actor.objects.get_or_create(name=actor.text.strip("\n"))[0]
-                new_movie.actors.add(new_actor)
-                current_cast_index + 1
+                MovieActor.objects.create(
+                    movie=new_movie, actor=new_actor, credit_position=current_cast_index
+                )
+                current_cast_index = current_cast_index + 1
+            else:
+                break
