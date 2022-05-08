@@ -1,3 +1,5 @@
+from datetime import date
+
 import requests
 from django.conf import settings
 from rest_framework.generics import RetrieveAPIView
@@ -30,6 +32,9 @@ class MovieRetrieveView(RetrieveAPIView):
     serializer_class = MovieSerializer
 
     def retrieve(self, pk):
-        movie = Movie.objects.order_by("?").first()
+        today = date.today()
+        movie = Movie.objects.get(
+            date__year=today.year, date__month=today.month, date__day=today.day
+        )
         serializer = MovieSerializer(movie)
         return Response(serializer.data)

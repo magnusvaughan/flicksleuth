@@ -14,4 +14,4 @@ class MovieSerializer(ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ("title", "year", "actors")
+        fields = ("title", "year", "actors", "date")
